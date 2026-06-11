@@ -568,12 +568,18 @@ async function trackOrder(){
     console.log('RAW found row:', found);
     found.forEach((v,i)=>console.log(`col[${i}]:`, JSON.stringify(v)));
 
-    // Columns: 0=OrderNo, 1=ชื่อผู้รับ, 2=เบอร์โทร, 3=สถานะ(dropdown), 4=รหัสไปรษณีย์, 5=เลขพัสดุ, 6=หมายเหตุ
-    const [orderNo,custName,sheetPhone,status,postcode,trackingNo,remark]=found;
+    // A=0,B=1,C=2,D=3,E=4,F=5,G=6
+    const orderNo   = found[0]||'';
+    const custName  = found[1]||'';
+    const sheetPhone= found[2]||'';
+    const status    = found[3]||'';
+    const postcode  = found[4]||'';
+    const trackingNo= found[5]||'';
+    const remark    = found[6]||'';
 
     // verify phone — compare digits only
     const cleanInput=phone.replace(/\D/g,'');
-    const cleanSheet=(sheetPhone||'').replace(/\D/g,'');
+    const cleanSheet=sheetPhone.replace(/\D/g,'');
     if(cleanInput!==cleanSheet){
       res.innerHTML=`<div style="padding:16px;font-size:13px;color:var(--red);background:var(--red-bg);border-radius:12px;margin-top:10px">❌ เบอร์โทรไม่ตรงกับที่ลงทะเบียนไว้นะคะ<br><span style="font-size:12px">กรุณาตรวจสอบอีกครั้งค่ะ</span></div>`;
       return;
