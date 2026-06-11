@@ -8,140 +8,154 @@
   @import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap');
 
   :root {
-    --bg:           #FAF7F5;
-    --card:         #FFFFFF;
-    --border:       #EDE5DC;
-    --text:         #2A1F14;
-    --muted:        #9A8878;
-    --accent:       #B07040;
-    --accent-light: #F5EDE3;
-    --accent-mid:   #D4956A;
-    --shadow:       0 2px 10px rgba(160,110,70,0.10);
-    --chip-a:#EEE6F8;--chip-at:#7A55C0;
-    --chip-b:#FDE8F0;--chip-bt:#C05575;
-    --chip-c:#E8F5EE;--chip-ct:#3A8A60;
-    --chip-d:#FEF0E0;--chip-dt:#C07030;
-    --chip-e:#E5F2FC;--chip-et:#3A7AB0;
-    --line:#06C755;--line-dark:#04A844;--line-bg:#EDFBF3;
+    --bg:      #F5F5F7;
+    --card:    #FFFFFF;
+    --border:  #E0E0E5;
+    --text:    #1D1D1F;
+    --sub:     #6E6E73;
+    --blue:    #0071E3;
+    --blue-bg: #EAF2FF;
+    --red:     #FF3B30;
+    --red-bg:  #FFF1F0;
+    --green:   #06C755;
+    --green-bg:#EDFBF3;
+    --green-dk:#04A844;
+    --tag-bg:  #F5F5F7;
+    --mono:    'IBM Plex Mono', monospace;
+    --r:       12px;
+    --r-lg:    18px;
+    --shadow:  0 1px 4px rgba(0,0,0,0.08);
   }
 
-  *{box-sizing:border-box;margin:0;padding:0;}
-  body{background:var(--bg);font-family:'Sarabun',sans-serif;color:var(--text);min-height:100vh;padding:12px 12px 64px;}
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  body{background:var(--bg);font-family:'Sarabun',sans-serif;color:var(--text);min-height:100vh;padding:0 0 80px;}
 
-  /* HEADER */
-  .header{text-align:center;padding:20px 0 14px;border-bottom:1px solid var(--border);margin-bottom:14px;}
-  .header h1{font-size:20px;font-weight:700;color:var(--accent);margin-top:4px;}
-  .header p{font-size:12px;color:var(--muted);margin-top:3px;}
+  /* ── HEADER ── */
+  .header{text-align:center;padding:36px 20px 20px;background:var(--card);border-bottom:1px solid var(--border);margin-bottom:16px;}
+  .header-icon{font-size:32px;line-height:1;}
+  .header h1{font-size:22px;font-weight:700;letter-spacing:-0.3px;margin-top:6px;color:var(--text);}
+  .header p{font-size:13px;color:var(--sub);margin-top:4px;}
 
-  /* TABS */
-  .tabs{display:flex;background:var(--card);border-radius:14px;border:1.5px solid var(--border);overflow:hidden;box-shadow:var(--shadow);margin-bottom:14px;}
-  .tab-btn{flex:1;padding:11px 4px;font-family:'Sarabun',sans-serif;font-size:12px;font-weight:600;border:none;background:transparent;color:var(--muted);cursor:pointer;transition:background .18s,color .18s;line-height:1.25;}
-  .tab-btn.active{background:var(--accent);color:#fff;}
+  /* ── TABS ── */
+  .tabs{display:flex;background:var(--card);border-bottom:1px solid var(--border);margin-bottom:16px;overflow-x:auto;scrollbar-width:none;}
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{flex:1;min-width:72px;padding:12px 6px 11px;font-family:'Sarabun',sans-serif;font-size:12px;font-weight:600;border:none;background:transparent;color:var(--sub);cursor:pointer;transition:color .15s;line-height:1.3;border-bottom:2px solid transparent;white-space:nowrap;}
+  .tab-btn.active{color:var(--blue);border-bottom-color:var(--blue);}
 
-  .section-title{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:1.6px;color:var(--muted);margin:16px 0 8px;}
-  .chip{display:inline-flex;align-items:center;gap:4px;font-size:11.5px;font-weight:700;padding:4px 11px;border-radius:20px;margin:10px 0 6px;}
+  /* ── WRAP ── */
+  .wrap{padding:0 16px;}
+  .section-lbl{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1.2px;color:var(--sub);margin:20px 0 8px;padding:0 2px;}
 
-  /* PRODUCT CARD */
-  .pc{background:var(--card);border:1.5px solid var(--border);border-radius:14px;padding:10px 12px;margin-bottom:7px;display:flex;align-items:flex-start;gap:10px;box-shadow:var(--shadow);}
-  .pc-icon{width:48px;height:48px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+  /* ── PRICE GROUP HEADER ── */
+  .price-group{font-size:12px;font-weight:500;color:var(--sub);margin:16px 0 6px;padding:0 2px;display:flex;align-items:center;gap:6px;}
+  .price-group::after{content:'';flex:1;height:1px;background:var(--border);}
+
+  /* ── PRODUCT CARD ── */
+  .pc{background:var(--card);border-radius:var(--r-lg);padding:14px;margin-bottom:8px;display:flex;align-items:flex-start;gap:12px;box-shadow:var(--shadow);}
+  .pc-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;background:var(--bg);}
   .pc-info{flex:1;min-width:0;}
-  .pc-name{font-size:13.5px;font-weight:600;color:var(--text);}
-  .pc-sub{font-size:11px;color:var(--muted);margin-top:1px;}
-  .pc-price{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--accent);flex-shrink:0;margin-left:4px;padding-top:2px;}
+  .pc-name{font-size:14px;font-weight:600;color:var(--text);}
+  .pc-sub{font-size:11.5px;color:var(--sub);margin-top:2px;}
+  .pc-price{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--sub);flex-shrink:0;padding-top:1px;}
 
-  /* QTY */
-  .qty-row{display:flex;align-items:center;gap:8px;margin-top:7px;}
-  .qb{width:28px;height:28px;border-radius:8px;border:none;font-size:18px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;transition:opacity .1s,transform .1s;}
-  .qb:active{transform:scale(.86);opacity:.7;}
-  .qb.minus{background:var(--accent-light);color:var(--accent);}
-  .qb.plus{background:var(--accent);color:#fff;}
-  .qd{font-family:'IBM Plex Mono',monospace;font-size:15px;font-weight:700;min-width:22px;text-align:center;color:var(--text);}
-  .qd.nz{color:var(--accent);}
+  /* ── QTY ── */
+  .qty-row{display:flex;align-items:center;gap:10px;margin-top:8px;}
+  .qb{width:28px;height:28px;border-radius:50%;border:none;font-size:17px;font-weight:500;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;transition:background .12s,transform .1s;background:var(--bg);color:var(--text);}
+  .qb:active{transform:scale(.88);}
+  .qb.plus{background:var(--blue);color:#fff;}
+  .qd{font-family:var(--mono);font-size:15px;font-weight:600;min-width:22px;text-align:center;color:var(--text);}
+  .qd.nz{color:var(--blue);}
 
-  /* ADDON */
-  .addon-row{display:flex;align-items:center;gap:6px;margin-top:6px;}
-  .addon-btn{padding:4px 10px;border-radius:20px;border:1.5px solid var(--border);background:var(--bg);font-family:'Sarabun',sans-serif;font-size:11.5px;font-weight:600;color:var(--muted);cursor:pointer;transition:all .15s;white-space:nowrap;}
-  .addon-btn.on{border-color:var(--accent-mid);background:var(--accent-light);color:var(--accent);}
+  /* ── ADDON ── */
+  .addon-row{display:flex;align-items:center;gap:6px;margin-top:8px;}
+  .addon-lbl{font-size:11.5px;color:var(--sub);}
+  .addon-btn{padding:4px 10px;border-radius:20px;border:1px solid var(--border);background:var(--bg);font-family:'Sarabun',sans-serif;font-size:11.5px;font-weight:500;color:var(--sub);cursor:pointer;transition:all .15s;}
+  .addon-btn.on{border-color:var(--blue);background:var(--blue-bg);color:var(--blue);}
 
-  /* BOX */
-  .box{background:var(--card);border:1.5px solid var(--border);border-radius:16px;padding:14px;margin-top:14px;box-shadow:var(--shadow);}
-  .box-title{font-size:14px;font-weight:700;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+  /* ── BOX ── */
+  .box{background:var(--card);border-radius:var(--r-lg);padding:16px;margin-top:10px;box-shadow:var(--shadow);}
+  .box-title{font-size:15px;font-weight:600;display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
 
-  /* CART ITEM */
-  .ci{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px dashed var(--border);font-size:13px;}
+  /* ── CART ITEMS ── */
+  .ci{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);font-size:13.5px;}
   .ci:last-of-type{border-bottom:none;}
-  .ci-name{flex:1;line-height:1.4;}
-  .ci-qty{display:inline-block;background:var(--accent-light);color:var(--accent);font-size:10.5px;font-weight:700;border-radius:10px;padding:1px 6px;margin-left:4px;}
-  .ci-addon{display:inline-block;background:var(--chip-c);color:var(--chip-ct);font-size:10px;font-weight:700;border-radius:10px;padding:1px 6px;margin-left:3px;}
-  .ci-price{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:600;color:var(--accent);margin:0 8px;white-space:nowrap;}
-  .rm-btn{background:#FDE8EC;border:none;color:#C04060;font-size:13px;font-weight:700;cursor:pointer;padding:3px 7px;border-radius:7px;line-height:1;}
-  .divider{border:none;border-top:1px dashed var(--border);margin:10px 0;}
+  .ci-name{flex:1;line-height:1.4;color:var(--text);}
+  .ci-qty{display:inline-block;background:var(--blue-bg);color:var(--blue);font-size:10.5px;font-weight:600;border-radius:6px;padding:1px 6px;margin-left:5px;}
+  .ci-addon{display:inline-block;background:var(--bg);color:var(--sub);font-size:10px;font-weight:500;border-radius:6px;padding:1px 6px;margin-left:4px;}
+  .ci-price{font-family:var(--mono);font-size:13px;font-weight:500;color:var(--text);margin:0 10px;}
+  .rm-btn{background:none;border:none;color:var(--sub);font-size:18px;cursor:pointer;padding:0 2px;line-height:1;opacity:.5;}
+  .rm-btn:active{opacity:1;color:var(--red);}
 
-  /* TOGGLES */
-  .tog-lbl{font-size:12px;font-weight:700;color:var(--muted);margin-top:12px;display:block;}
-  .tog-row{display:flex;gap:8px;margin-top:6px;}
-  .tog-opt{flex:1;padding:9px 6px;border-radius:12px;border:2px solid var(--border);background:var(--bg);font-family:'Sarabun',sans-serif;font-size:12.5px;font-weight:600;cursor:pointer;text-align:center;color:var(--muted);transition:all .18s;line-height:1.4;}
-  .tog-opt.sel-accent{border-color:var(--accent-mid);background:var(--accent-light);color:var(--accent);}
-  .tog-opt.sel-green{border-color:var(--line);background:var(--line-bg);color:var(--line-dark);}
+  /* ── TOGGLES ── */
+  .tog-lbl{font-size:12px;font-weight:600;color:var(--sub);margin-top:16px;display:block;margin-bottom:6px;}
+  .tog-row{display:flex;gap:6px;}
+  .tog-opt{flex:1;padding:9px 6px;border-radius:var(--r);border:1.5px solid var(--border);background:var(--bg);font-family:'Sarabun',sans-serif;font-size:12px;font-weight:500;cursor:pointer;text-align:center;color:var(--sub);transition:all .15s;line-height:1.5;}
+  .tog-opt.sel-blue{border-color:var(--blue);background:var(--blue-bg);color:var(--blue);}
+  .tog-opt.sel-green{border-color:var(--green);background:var(--green-bg);color:var(--green-dk);}
 
-  /* TOTALS */
-  .sub-row{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-top:8px;}
-  .total-row{display:flex;justify-content:space-between;align-items:center;margin-top:8px;background:var(--accent-light);border-radius:12px;padding:10px 14px;}
-  .total-label{font-size:14px;font-weight:700;}
-  .total-val{font-family:'IBM Plex Mono',monospace;font-size:20px;font-weight:700;color:var(--accent);}
+  /* ── DIVIDER ── */
+  .divider{border:none;border-top:1px solid var(--border);margin:12px 0;}
 
-  /* FIELDS */
-  .fl{font-size:12px;font-weight:600;color:var(--muted);display:block;margin:12px 0 4px;}
-  .fi{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-family:'Sarabun',sans-serif;font-size:14px;color:var(--text);background:var(--bg);}
-  .fi:focus{outline:none;border-color:var(--accent-mid);}
-  .fi-note{width:100%;border:1.5px solid var(--border);border-radius:10px;padding:9px 12px;font-family:'Sarabun',sans-serif;font-size:13px;color:var(--text);background:var(--bg);resize:none;height:60px;}
-  .fi-note:focus{outline:none;border-color:var(--accent-mid);}
+  /* ── TOTALS ── */
+  .sub-row{display:flex;justify-content:space-between;font-size:13px;color:var(--sub);margin-top:8px;}
+  .sub-row span:last-child{font-family:var(--mono);font-weight:500;}
+  .total-row{display:flex;justify-content:space-between;align-items:center;margin-top:10px;padding:12px 14px;background:var(--bg);border-radius:var(--r);}
+  .total-label{font-size:14px;font-weight:600;}
+  .total-val{font-family:var(--mono);font-size:20px;font-weight:600;color:var(--text);}
 
-  /* DELIVERY INFO */
-  .delivery-info{background:var(--accent-light);border:1.5px solid var(--border);border-radius:12px;padding:11px 14px;font-size:13px;color:var(--accent);line-height:1.9;margin-top:4px;}
-  .delivery-info strong{font-weight:700;color:var(--text);}
+  /* ── FIELDS ── */
+  .fl{font-size:12px;font-weight:600;color:var(--sub);display:block;margin:14px 0 5px;}
+  .fi{width:100%;border:1.5px solid var(--border);border-radius:var(--r);padding:10px 13px;font-family:'Sarabun',sans-serif;font-size:14px;color:var(--text);background:var(--card);transition:border-color .15s;}
+  .fi:focus{outline:none;border-color:var(--blue);}
+  .fi-note{width:100%;border:1.5px solid var(--border);border-radius:var(--r);padding:10px 13px;font-family:'Sarabun',sans-serif;font-size:13px;color:var(--text);background:var(--card);resize:none;height:60px;transition:border-color .15s;}
+  .fi-note:focus{outline:none;border-color:var(--blue);}
 
-  /* GEN BTN */
-  .gen-btn{width:100%;padding:15px;background:var(--accent);color:#fff;border:none;border-radius:16px;font-family:'Sarabun',sans-serif;font-size:16px;font-weight:700;cursor:pointer;margin-top:14px;box-shadow:0 4px 16px rgba(160,100,50,.25);transition:opacity .18s,transform .1s;}
-  .gen-btn:active{transform:scale(.97);opacity:.85;}
+  /* ── DELIVERY INFO ── */
+  .delivery-info{background:var(--bg);border:1.5px solid var(--border);border-radius:var(--r);padding:12px 14px;font-size:13px;color:var(--sub);line-height:1.9;margin-top:4px;}
+  .delivery-info strong{font-weight:600;color:var(--text);}
 
-  /* OUTPUT */
-  .out-wrap{margin-top:16px;border:2px solid var(--line);border-radius:16px;overflow:hidden;}
-  .out-head{background:var(--line);display:flex;justify-content:space-between;align-items:center;padding:10px 14px;}
-  .out-head-label{font-size:13px;font-weight:700;color:#fff;}
-  .copy-btn{background:#fff;color:var(--line-dark);border:2px solid var(--line-dark);border-radius:9px;padding:6px 16px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Sarabun',sans-serif;transition:all .18s;}
-  .copy-btn:hover{background:var(--line-dark);color:#fff;}
-  .copy-btn.copied{background:var(--line-dark);color:#fff;border-color:var(--line-dark);}
-  .out-body{background:var(--line-bg);padding:14px;}
-  .out-text{font-family:'IBM Plex Mono',monospace;font-size:12.5px;line-height:1.85;color:#1A3A24;white-space:pre-wrap;word-break:break-word;}
+  /* ── CLEAR BTN ── */
+  .clear-btn{background:none;border:none;color:var(--red);font-family:'Sarabun',sans-serif;font-size:13px;font-weight:500;cursor:pointer;padding:4px 0;}
 
-  /* TRACKING */
-  .track-input-row{display:flex;gap:8px;margin-top:4px;}
-  .track-input-row .fi{flex:1;}
-  .track-search-btn{padding:9px 16px;background:var(--accent);color:#fff;border:none;border-radius:10px;font-family:'Sarabun',sans-serif;font-size:14px;font-weight:700;cursor:pointer;white-space:nowrap;transition:opacity .18s;}
-  .track-search-btn:active{opacity:.8;}
-  .track-result{margin-top:14px;border-radius:16px;overflow:hidden;border:1.5px solid var(--border);}
-  .track-result-head{padding:12px 16px;font-size:13px;font-weight:700;}
-  .track-result-body{padding:14px 16px;}
-  .track-row{display:flex;justify-content:space-between;align-items:flex-start;padding:8px 0;border-bottom:1px dashed var(--border);font-size:13px;}
+  /* ── GEN BTN ── */
+  .gen-btn{width:100%;padding:15px;background:var(--blue);color:#fff;border:none;border-radius:var(--r-lg);font-family:'Sarabun',sans-serif;font-size:16px;font-weight:600;cursor:pointer;margin-top:14px;transition:opacity .15s,transform .1s;letter-spacing:0.1px;}
+  .gen-btn:active{transform:scale(.98);opacity:.9;}
+
+  /* ── OUTPUT ── */
+  .out-wrap{margin-top:14px;border-radius:var(--r-lg);overflow:hidden;border:1.5px solid var(--green);}
+  .out-head{background:var(--green);display:flex;justify-content:space-between;align-items:center;padding:10px 14px;}
+  .out-head-label{font-size:13px;font-weight:600;color:#fff;}
+  .copy-btn{background:#fff;color:var(--green-dk);border:none;border-radius:8px;padding:6px 16px;font-size:13px;font-weight:600;cursor:pointer;font-family:'Sarabun',sans-serif;transition:all .15s;}
+  .copy-btn.copied{background:var(--green-dk);color:#fff;}
+  .out-body{background:var(--green-bg);padding:14px;}
+  .out-text{font-family:var(--mono);font-size:12.5px;line-height:1.85;color:#1A3A24;white-space:pre-wrap;word-break:break-word;}
+
+  /* ── TRACKING ── */
+  .track-search-btn{width:100%;margin-top:10px;padding:13px;background:var(--blue);color:#fff;border:none;border-radius:var(--r-lg);font-family:'Sarabun',sans-serif;font-size:15px;font-weight:600;cursor:pointer;transition:opacity .15s;}
+  .track-search-btn:active{opacity:.85;}
+  .track-result{margin-top:14px;border-radius:var(--r-lg);overflow:hidden;border:1.5px solid var(--border);background:var(--card);}
+  .track-result-head{padding:13px 16px;font-size:13px;font-weight:600;border-bottom:1px solid var(--border);background:var(--bg);color:var(--sub);}
+  .track-result-head strong{color:var(--text);}
+  .track-result-body{padding:4px 16px 8px;}
+  .track-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:13.5px;}
   .track-row:last-child{border-bottom:none;}
-  .track-key{color:var(--muted);font-size:12px;font-weight:600;min-width:90px;}
-  .track-val{font-weight:600;color:var(--text);text-align:right;flex:1;}
-  /* status badges */
-  .badge-wait{background:#FEF0E0;color:#C07030;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:700;}
-  .badge-paid{background:#E8F5EE;color:#3A8A60;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:700;}
-  .badge-ship{background:#E5F2FC;color:#3A7AB0;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:700;}
-  .badge-done{background:var(--line-bg);color:var(--line-dark);border-radius:20px;padding:3px 10px;font-size:12px;font-weight:700;}
-  .badge-err {background:#FDE8EC;color:#C04060;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:700;}
-  .track-loading{text-align:center;padding:20px;color:var(--muted);font-size:14px;}
-  .sheet-url-note{font-size:11px;color:var(--muted);background:var(--accent-light);border-radius:10px;padding:8px 12px;margin-top:8px;line-height:1.7;}
-  .sheet-url-input{width:100%;border:1.5px dashed var(--border);border-radius:10px;padding:8px 12px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text);background:var(--bg);margin-top:6px;}
-  .sheet-url-input:focus{outline:none;border-color:var(--accent-mid);}
+  .track-key{color:var(--sub);font-size:12px;font-weight:500;min-width:100px;}
+  .track-val{font-weight:500;color:var(--text);text-align:right;flex:1;}
+  .track-loading{text-align:center;padding:24px;color:var(--sub);font-size:14px;}
 
-  /* MISC */
-  .empty{text-align:center;padding:20px 10px;color:var(--muted);font-size:14px;line-height:1.8;}
-  .badge-num{background:var(--accent);color:#fff;border-radius:20px;font-size:11px;font-weight:700;padding:1px 7px;min-width:20px;text-align:center;}
-  .clear-btn{background:#FDE8EC;color:#C04060;border:1.5px solid #F0B8C4;border-radius:9px;padding:5px 11px;font-size:12px;font-weight:600;cursor:pointer;font-family:'Sarabun',sans-serif;}
+  /* ── STATUS BADGES ── */
+  .badge-wait{background:#FFF3E0;color:#E65100;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:600;}
+  .badge-paid{background:#E8F5E9;color:#2E7D32;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:600;}
+  .badge-ship{background:#E3F2FD;color:#1565C0;border-radius:20px;padding:3px 10px;font-size:12px;font-weight:600;}
+  .badge-done{background:var(--green-bg);color:var(--green-dk);border-radius:20px;padding:3px 10px;font-size:12px;font-weight:600;}
+  .badge-err {background:var(--red-bg);color:var(--red);border-radius:20px;padding:3px 10px;font-size:12px;font-weight:600;}
+
+  /* ── BADGE NUM ── */
+  .badge-num{background:var(--red);color:#fff;border-radius:10px;font-size:10px;font-weight:700;padding:1px 6px;margin-left:2px;}
+
+  /* ── EMPTY ── */
+  .empty{text-align:center;padding:28px 10px;color:var(--sub);font-size:14px;line-height:1.9;}
+
   .tab-panel{display:none;}
   .tab-panel.active{display:block;}
 </style>
@@ -149,7 +163,7 @@
 <body>
 
 <div class="header">
-  <div style="font-size:26px">🖼️</div>
+  <div class="header-icon">🖼️</div>
   <h1>maywishh_</h1>
   <p>สรุปยอดอัตโนมัติจากไลฟ์ต๊อกต๊อกคับ 🖤</p>
 </div>
@@ -163,113 +177,118 @@
 
 <!-- ══════ TOPLOADER ══════ -->
 <div class="tab-panel active" id="tab-toploader">
-  <div class="section-title">Toploader B8</div>
+<div class="wrap">
+  <div class="price-group">ผีเสื้อสีเงิน · 39฿</div>
+  <div class="pc"><div class="pc-icon">🦋</div><div class="pc-info"><div class="pc-name">ผีเสื้อสีเงิน</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_silver_butterfly',-1)">−</button><span class="qd" id="qty_tb_silver_butterfly">0</span><button class="qb plus" onclick="adj('tb_silver_butterfly',1)">+</button></div><div class="addon-row"><span class="addon-lbl">เพิ่มพวง</span><button class="addon-btn" id="add_tb_silver_butterfly" onclick="toggleAddon('tb_silver_butterfly')">🌸 +20฿</button></div></div><div class="pc-price">39฿</div></div>
 
-  <div class="chip" style="background:var(--chip-a);color:var(--chip-at)">🦋 ผีเสื้อสีเงิน — 39฿</div>
-  <div class="pc"><div class="pc-icon" style="background:var(--chip-a)">🦋</div><div class="pc-info"><div class="pc-name">ผีเสื้อสีเงิน</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_silver_butterfly',-1)">−</button><span class="qd" id="qty_tb_silver_butterfly">0</span><button class="qb plus" onclick="adj('tb_silver_butterfly',1)">+</button></div><div class="addon-row"><span style="font-size:11px;color:var(--muted)">เพิ่มพวง:</span><button class="addon-btn" id="add_tb_silver_butterfly" onclick="toggleAddon('tb_silver_butterfly')">🌸 +พวง (+20฿)</button></div></div><div class="pc-price">39฿</div></div>
+  <div class="price-group">Strawberry · ดาว · หมาแมวซูชิ · 49฿</div>
+  <div class="pc"><div class="pc-icon">🍓</div><div class="pc-info"><div class="pc-name">Strawberry</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_strawberry',-1)">−</button><span class="qd" id="qty_tb_strawberry">0</span><button class="qb plus" onclick="adj('tb_strawberry',1)">+</button></div><div class="addon-row"><span class="addon-lbl">เพิ่มพวง</span><button class="addon-btn" id="add_tb_strawberry" onclick="toggleAddon('tb_strawberry')">🌸 +20฿</button></div></div><div class="pc-price">49฿</div></div>
+  <div class="pc"><div class="pc-icon">⭐</div><div class="pc-info"><div class="pc-name">ดาว</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_star',-1)">−</button><span class="qd" id="qty_tb_star">0</span><button class="qb plus" onclick="adj('tb_star',1)">+</button></div><div class="addon-row"><span class="addon-lbl">เพิ่มพวง</span><button class="addon-btn" id="add_tb_star" onclick="toggleAddon('tb_star')">🌸 +20฿</button></div></div><div class="pc-price">49฿</div></div>
+  <div class="pc"><div class="pc-icon">🐱</div><div class="pc-info"><div class="pc-name">หมาแมวซูชิ</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_petssushi',-1)">−</button><span class="qd" id="qty_tb_petssushi">0</span><button class="qb plus" onclick="adj('tb_petssushi',1)">+</button></div><div class="addon-row"><span class="addon-lbl">เพิ่มพวง</span><button class="addon-btn" id="add_tb_petssushi" onclick="toggleAddon('tb_petssushi')">🌸 +20฿</button></div></div><div class="pc-price">49฿</div></div>
 
-  <div class="chip" style="background:var(--chip-b);color:var(--chip-bt)">🍓 Strawberry / ดาว / หมาแมวซูชิ — 49฿</div>
-  <div class="pc"><div class="pc-icon" style="background:var(--chip-b)">🍓</div><div class="pc-info"><div class="pc-name">Strawberry</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_strawberry',-1)">−</button><span class="qd" id="qty_tb_strawberry">0</span><button class="qb plus" onclick="adj('tb_strawberry',1)">+</button></div><div class="addon-row"><span style="font-size:11px;color:var(--muted)">เพิ่มพวง:</span><button class="addon-btn" id="add_tb_strawberry" onclick="toggleAddon('tb_strawberry')">🌸 +พวง (+20฿)</button></div></div><div class="pc-price">49฿</div></div>
-  <div class="pc"><div class="pc-icon" style="background:var(--chip-d)">⭐</div><div class="pc-info"><div class="pc-name">ดาว</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_star',-1)">−</button><span class="qd" id="qty_tb_star">0</span><button class="qb plus" onclick="adj('tb_star',1)">+</button></div><div class="addon-row"><span style="font-size:11px;color:var(--muted)">เพิ่มพวง:</span><button class="addon-btn" id="add_tb_star" onclick="toggleAddon('tb_star')">🌸 +พวง (+20฿)</button></div></div><div class="pc-price">49฿</div></div>
-  <div class="pc"><div class="pc-icon" style="background:var(--chip-c)">🐱</div><div class="pc-info"><div class="pc-name">หมาแมวซูชิ</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_petssushi',-1)">−</button><span class="qd" id="qty_tb_petssushi">0</span><button class="qb plus" onclick="adj('tb_petssushi',1)">+</button></div><div class="addon-row"><span style="font-size:11px;color:var(--muted)">เพิ่มพวง:</span><button class="addon-btn" id="add_tb_petssushi" onclick="toggleAddon('tb_petssushi')">🌸 +พวง (+20฿)</button></div></div><div class="pc-price">49฿</div></div>
+  <div class="price-group">มะเขือเทศ · Apple · แม่มดสีม่วง · 59฿</div>
+  <div class="pc"><div class="pc-icon">🍅</div><div class="pc-info"><div class="pc-name">มะเขือเทศ</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_tomato',-1)">−</button><span class="qd" id="qty_tb_tomato">0</span><button class="qb plus" onclick="adj('tb_tomato',1)">+</button></div><div class="addon-row"><span class="addon-lbl">เพิ่มพวง</span><button class="addon-btn" id="add_tb_tomato" onclick="toggleAddon('tb_tomato')">🌸 +20฿</button></div></div><div class="pc-price">59฿</div></div>
+  <div class="pc"><div class="pc-icon">🍎</div><div class="pc-info"><div class="pc-name">Apple</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_apple',-1)">−</button><span class="qd" id="qty_tb_apple">0</span><button class="qb plus" onclick="adj('tb_apple',1)">+</button></div><div class="addon-row"><span class="addon-lbl">เพิ่มพวง</span><button class="addon-btn" id="add_tb_apple" onclick="toggleAddon('tb_apple')">🌸 +20฿</button></div></div><div class="pc-price">59฿</div></div>
+  <div class="pc"><div class="pc-icon">🧙‍♀️</div><div class="pc-info"><div class="pc-name">แม่มดสีม่วง</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_witch',-1)">−</button><span class="qd" id="qty_tb_witch">0</span><button class="qb plus" onclick="adj('tb_witch',1)">+</button></div><div class="addon-row"><span class="addon-lbl">เพิ่มพวง</span><button class="addon-btn" id="add_tb_witch" onclick="toggleAddon('tb_witch')">🌸 +20฿</button></div></div><div class="pc-price">59฿</div></div>
 
-  <div class="chip" style="background:var(--chip-d);color:var(--chip-dt)">🍅🍎🧙‍♀️ มะเขือเทศ / Apple / แม่มดสีม่วง — 59฿</div>
-  <div class="pc"><div class="pc-icon" style="background:var(--chip-d)">🍅</div><div class="pc-info"><div class="pc-name">มะเขือเทศ</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_tomato',-1)">−</button><span class="qd" id="qty_tb_tomato">0</span><button class="qb plus" onclick="adj('tb_tomato',1)">+</button></div><div class="addon-row"><span style="font-size:11px;color:var(--muted)">เพิ่มพวง:</span><button class="addon-btn" id="add_tb_tomato" onclick="toggleAddon('tb_tomato')">🌸 +พวง (+20฿)</button></div></div><div class="pc-price">59฿</div></div>
-  <div class="pc"><div class="pc-icon" style="background:var(--chip-b)">🍎</div><div class="pc-info"><div class="pc-name">Apple</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_apple',-1)">−</button><span class="qd" id="qty_tb_apple">0</span><button class="qb plus" onclick="adj('tb_apple',1)">+</button></div><div class="addon-row"><span style="font-size:11px;color:var(--muted)">เพิ่มพวง:</span><button class="addon-btn" id="add_tb_apple" onclick="toggleAddon('tb_apple')">🌸 +พวง (+20฿)</button></div></div><div class="pc-price">59฿</div></div>
-  <div class="pc"><div class="pc-icon" style="background:var(--chip-a)">🧙‍♀️</div><div class="pc-info"><div class="pc-name">แม่มดสีม่วง</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_witch',-1)">−</button><span class="qd" id="qty_tb_witch">0</span><button class="qb plus" onclick="adj('tb_witch',1)">+</button></div><div class="addon-row"><span style="font-size:11px;color:var(--muted)">เพิ่มพวง:</span><button class="addon-btn" id="add_tb_witch" onclick="toggleAddon('tb_witch')">🌸 +พวง (+20฿)</button></div></div><div class="pc-price">59฿</div></div>
+  <div class="price-group">Bon bon drop (ไม่ใช่ Sanrio) · 69฿</div>
+  <div class="pc"><div class="pc-icon">🍬</div><div class="pc-info"><div class="pc-name">Bon bon drop</div><div class="pc-sub">Toploader B8 · ไม่ใช่ Sanrio</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_bonbon',-1)">−</button><span class="qd" id="qty_tb_bonbon">0</span><button class="qb plus" onclick="adj('tb_bonbon',1)">+</button></div><div class="addon-row"><span class="addon-lbl">เพิ่มพวง</span><button class="addon-btn" id="add_tb_bonbon" onclick="toggleAddon('tb_bonbon')">🌸 +20฿</button></div></div><div class="pc-price">69฿</div></div>
 
-  <div class="chip" style="background:var(--chip-c);color:var(--chip-ct)">🍬 Bon bon drop (ไม่ใช่ Sanrio) — 69฿</div>
-  <div class="pc"><div class="pc-icon" style="background:var(--chip-c)">🍬</div><div class="pc-info"><div class="pc-name">Bon bon drop</div><div class="pc-sub">Toploader B8 · bon bon drop ที่ไม่ใช่ Sanrio</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_bonbon',-1)">−</button><span class="qd" id="qty_tb_bonbon">0</span><button class="qb plus" onclick="adj('tb_bonbon',1)">+</button></div><div class="addon-row"><span style="font-size:11px;color:var(--muted)">เพิ่มพวง:</span><button class="addon-btn" id="add_tb_bonbon" onclick="toggleAddon('tb_bonbon')">🌸 +พวง (+20฿)</button></div></div><div class="pc-price">69฿</div></div>
+  <div class="price-group">Clover · ตู้ปลา · 79฿</div>
+  <div class="pc"><div class="pc-icon">🍀</div><div class="pc-info"><div class="pc-name">Clover</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_clover',-1)">−</button><span class="qd" id="qty_tb_clover">0</span><button class="qb plus" onclick="adj('tb_clover',1)">+</button></div><div class="addon-row"><span class="addon-lbl">เพิ่มพวง</span><button class="addon-btn" id="add_tb_clover" onclick="toggleAddon('tb_clover')">🌸 +20฿</button></div></div><div class="pc-price">79฿</div></div>
+  <div class="pc"><div class="pc-icon">🐠</div><div class="pc-info"><div class="pc-name">ตู้ปลา</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_aquarium',-1)">−</button><span class="qd" id="qty_tb_aquarium">0</span><button class="qb plus" onclick="adj('tb_aquarium',1)">+</button></div><div class="addon-row"><span class="addon-lbl">เพิ่มพวง</span><button class="addon-btn" id="add_tb_aquarium" onclick="toggleAddon('tb_aquarium')">🌸 +20฿</button></div></div><div class="pc-price">79฿</div></div>
 
-  <div class="chip" style="background:var(--chip-e);color:var(--chip-et)">🍀 Clover / ตู้ปลา — 79฿</div>
-  <div class="pc"><div class="pc-icon" style="background:var(--chip-e)">🍀</div><div class="pc-info"><div class="pc-name">Clover</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_clover',-1)">−</button><span class="qd" id="qty_tb_clover">0</span><button class="qb plus" onclick="adj('tb_clover',1)">+</button></div><div class="addon-row"><span style="font-size:11px;color:var(--muted)">เพิ่มพวง:</span><button class="addon-btn" id="add_tb_clover" onclick="toggleAddon('tb_clover')">🌸 +พวง (+20฿)</button></div></div><div class="pc-price">79฿</div></div>
-  <div class="pc"><div class="pc-icon" style="background:var(--chip-e)">🐠</div><div class="pc-info"><div class="pc-name">ตู้ปลา</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_aquarium',-1)">−</button><span class="qd" id="qty_tb_aquarium">0</span><button class="qb plus" onclick="adj('tb_aquarium',1)">+</button></div><div class="addon-row"><span style="font-size:11px;color:var(--muted)">เพิ่มพวง:</span><button class="addon-btn" id="add_tb_aquarium" onclick="toggleAddon('tb_aquarium')">🌸 +พวง (+20฿)</button></div></div><div class="pc-price">79฿</div></div>
+  <div class="price-group">ผีเสื้อสีดำ · 169฿</div>
+  <div class="pc"><div class="pc-icon">🦋</div><div class="pc-info"><div class="pc-name">ผีเสื้อสีดำ</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_black_butterfly',-1)">−</button><span class="qd" id="qty_tb_black_butterfly">0</span><button class="qb plus" onclick="adj('tb_black_butterfly',1)">+</button></div><div class="addon-row"><span class="addon-lbl">เพิ่มพวง</span><button class="addon-btn" id="add_tb_black_butterfly" onclick="toggleAddon('tb_black_butterfly')">🌸 +20฿</button></div></div><div class="pc-price">169฿</div></div>
 
-  <div class="chip" style="background:var(--chip-a);color:var(--chip-at)">🖤 ผีเสื้อสีดำ — 169฿</div>
-  <div class="pc"><div class="pc-icon" style="background:#EEE6F8">🦋</div><div class="pc-info"><div class="pc-name">ผีเสื้อสีดำ</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_black_butterfly',-1)">−</button><span class="qd" id="qty_tb_black_butterfly">0</span><button class="qb plus" onclick="adj('tb_black_butterfly',1)">+</button></div><div class="addon-row"><span style="font-size:11px;color:var(--muted)">เพิ่มพวง:</span><button class="addon-btn" id="add_tb_black_butterfly" onclick="toggleAddon('tb_black_butterfly')">🌸 +พวง (+20฿)</button></div></div><div class="pc-price">169฿</div></div>
-
-  <div class="chip" style="background:var(--chip-b);color:var(--chip-bt)">🎀 Sanrio — 189฿</div>
-  <div class="pc"><div class="pc-icon" style="background:var(--chip-b)">🎀</div><div class="pc-info"><div class="pc-name">Sanrio</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_sanrio',-1)">−</button><span class="qd" id="qty_tb_sanrio">0</span><button class="qb plus" onclick="adj('tb_sanrio',1)">+</button></div><div class="addon-row"><span style="font-size:11px;color:var(--muted)">เพิ่มพวง:</span><button class="addon-btn" id="add_tb_sanrio" onclick="toggleAddon('tb_sanrio')">🌸 +พวง (+20฿)</button></div></div><div class="pc-price">189฿</div></div>
+  <div class="price-group">Sanrio · 189฿</div>
+  <div class="pc"><div class="pc-icon">🎀</div><div class="pc-info"><div class="pc-name">Sanrio</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_sanrio',-1)">−</button><span class="qd" id="qty_tb_sanrio">0</span><button class="qb plus" onclick="adj('tb_sanrio',1)">+</button></div><div class="addon-row"><span class="addon-lbl">เพิ่มพวง</span><button class="addon-btn" id="add_tb_sanrio" onclick="toggleAddon('tb_sanrio')">🌸 +20฿</button></div></div><div class="pc-price">189฿</div></div>
+</div>
 </div>
 
 <!-- ══════ MAGSAFE ══════ -->
 <div class="tab-panel" id="tab-magsafe">
-  <div class="section-title">MagSafe</div>
-  <div class="chip" style="background:var(--chip-c);color:var(--chip-ct)">🍬 Bon bon — 169฿</div>
-  <div class="pc"><div class="pc-icon" style="background:var(--chip-c)">🍬</div><div class="pc-info"><div class="pc-name">Bon bon</div><div class="pc-sub">MagSafe</div><div class="qty-row"><button class="qb minus" onclick="adj('ms_bonbon',-1)">−</button><span class="qd" id="qty_ms_bonbon">0</span><button class="qb plus" onclick="adj('ms_bonbon',1)">+</button></div></div><div class="pc-price">169฿</div></div>
-  <div class="chip" style="background:var(--chip-a);color:var(--chip-at)">🖤 ผีเสื้อสีดำ — 229฿</div>
-  <div class="pc"><div class="pc-icon" style="background:#EEE6F8">🦋</div><div class="pc-info"><div class="pc-name">ผีเสื้อสีดำ</div><div class="pc-sub">MagSafe</div><div class="qty-row"><button class="qb minus" onclick="adj('ms_black_butterfly',-1)">−</button><span class="qd" id="qty_ms_black_butterfly">0</span><button class="qb plus" onclick="adj('ms_black_butterfly',1)">+</button></div></div><div class="pc-price">229฿</div></div>
-  <div class="chip" style="background:var(--chip-b);color:var(--chip-bt)">🎀 Sanrio — 249฿</div>
-  <div class="pc"><div class="pc-icon" style="background:var(--chip-b)">🎀</div><div class="pc-info"><div class="pc-name">Sanrio</div><div class="pc-sub">MagSafe</div><div class="qty-row"><button class="qb minus" onclick="adj('ms_sanrio',-1)">−</button><span class="qd" id="qty_ms_sanrio">0</span><button class="qb plus" onclick="adj('ms_sanrio',1)">+</button></div></div><div class="pc-price">249฿</div></div>
+<div class="wrap">
+  <div class="price-group">Bon bon · 169฿</div>
+  <div class="pc"><div class="pc-icon">🍬</div><div class="pc-info"><div class="pc-name">Bon bon</div><div class="pc-sub">MagSafe</div><div class="qty-row"><button class="qb minus" onclick="adj('ms_bonbon',-1)">−</button><span class="qd" id="qty_ms_bonbon">0</span><button class="qb plus" onclick="adj('ms_bonbon',1)">+</button></div></div><div class="pc-price">169฿</div></div>
+
+  <div class="price-group">ผีเสื้อสีดำ · 229฿</div>
+  <div class="pc"><div class="pc-icon">🦋</div><div class="pc-info"><div class="pc-name">ผีเสื้อสีดำ</div><div class="pc-sub">MagSafe</div><div class="qty-row"><button class="qb minus" onclick="adj('ms_black_butterfly',-1)">−</button><span class="qd" id="qty_ms_black_butterfly">0</span><button class="qb plus" onclick="adj('ms_black_butterfly',1)">+</button></div></div><div class="pc-price">229฿</div></div>
+
+  <div class="price-group">Sanrio · 249฿</div>
+  <div class="pc"><div class="pc-icon">🎀</div><div class="pc-info"><div class="pc-name">Sanrio</div><div class="pc-sub">MagSafe</div><div class="qty-row"><button class="qb minus" onclick="adj('ms_sanrio',-1)">−</button><span class="qd" id="qty_ms_sanrio">0</span><button class="qb plus" onclick="adj('ms_sanrio',1)">+</button></div></div><div class="pc-price">249฿</div></div>
+</div>
 </div>
 
 <!-- ══════ CART ══════ -->
 <div class="tab-panel" id="tab-cart">
+<div class="wrap">
   <div class="box">
     <div class="box-title">
-      <span>🛒 รายการสินค้า</span>
-      <button class="clear-btn" onclick="clearCart()">🗑️ ล้าง</button>
+      <span>รายการสินค้า</span>
+      <button class="clear-btn" onclick="clearCart()">ล้างตะกร้า</button>
     </div>
-    <div id="cart-list"><div class="empty">🛍️ ยังไม่มีสินค้า<br><span style="font-size:12px">กลับไปเลือกสินค้าก่อนนะคะ</span></div></div>
+    <div id="cart-list"><div class="empty">ยังไม่มีสินค้า<br><span style="font-size:12px">กลับไปเลือกสินค้าก่อนนะคะ</span></div></div>
     <hr class="divider">
 
-    <span class="tog-lbl">🚚 พื้นที่จัดส่ง</span>
+    <span class="tog-lbl">พื้นที่จัดส่ง</span>
     <div class="tog-row">
-      <button class="tog-opt sel-accent" id="zone-in"  onclick="setZone('in')">🏙️ ในพื้นที่<br><span style="font-size:11px;font-weight:400">ค่าส่ง 40฿</span></button>
-      <button class="tog-opt"            id="zone-out" onclick="setZone('out')">🗺️ นอกพื้นที่<br><span style="font-size:11px;font-weight:400">ค่าส่ง 65฿ (+25฿)</span></button>
+      <button class="tog-opt sel-blue" id="zone-in"  onclick="setZone('in')">ในพื้นที่<br><span style="font-size:11px;font-weight:400">40฿</span></button>
+      <button class="tog-opt"          id="zone-out" onclick="setZone('out')">นอกพื้นที่<br><span style="font-size:11px;font-weight:400">65฿ (+25฿)</span></button>
     </div>
 
-    <span class="tog-lbl">🛍️ สถานะถุงลูกค้า</span>
+    <span class="tog-lbl">สถานะถุง</span>
     <div class="tog-row" style="flex-wrap:wrap;gap:6px">
-      <button class="tog-opt sel-accent" id="bag-none" onclick="setBag('none')" style="flex:1;min-width:calc(33% - 6px)">❌ ไม่ฝากถุง<br><span style="font-size:11px;font-weight:400">คิดค่าส่งปกติ</span></button>
-      <button class="tog-opt"           id="bag-new"  onclick="setBag('new')"  style="flex:1;min-width:calc(33% - 6px)">🛍️ ฝากถุงรอบนี้<br><span style="font-size:11px;font-weight:400">คิดค่าส่งปกติ</span></button>
-      <button class="tog-opt"           id="bag-have" onclick="setBag('have')" style="flex:1;min-width:calc(33% - 6px)">✅ ฝากถุงไว้<br><span style="font-size:11px;font-weight:400">ไม่คิดค่าส่ง 🎉</span></button>
+      <button class="tog-opt sel-blue" id="bag-none" onclick="setBag('none')" style="flex:1;min-width:calc(33% - 6px)">❌ ไม่ฝากถุง<br><span style="font-size:11px;font-weight:400">คิดค่าส่งปกติ</span></button>
+      <button class="tog-opt"          id="bag-new"  onclick="setBag('new')"  style="flex:1;min-width:calc(33% - 6px)">🛍️ ฝากถุงรอบนี้<br><span style="font-size:11px;font-weight:400">คิดค่าส่งปกติ</span></button>
+      <button class="tog-opt"          id="bag-have" onclick="setBag('have')" style="flex:1;min-width:calc(33% - 6px)">✅ ฝากถุงไว้<br><span style="font-size:11px;font-weight:400">ไม่คิดค่าส่ง</span></button>
     </div>
 
     <div id="totals" style="display:none;margin-top:4px">
-      <div class="sub-row"><span>💰 สินค้า</span><span id="sub-val" style="font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--accent)">0฿</span></div>
-      <div class="sub-row"><span>🚚 ค่าส่ง</span><span id="ship-val" style="font-family:'IBM Plex Mono',monospace;font-weight:600;color:var(--accent)">0฿</span></div>
-      <div class="total-row"><span class="total-label">✅ รวมทั้งหมด</span><span class="total-val" id="total-val">0฿</span></div>
+      <div class="sub-row"><span>สินค้า</span><span id="sub-val">0฿</span></div>
+      <div class="sub-row"><span>ค่าส่ง</span><span id="ship-val">0฿</span></div>
+      <div class="total-row"><span class="total-label">รวมทั้งหมด</span><span class="total-val" id="total-val">0฿</span></div>
     </div>
   </div>
 
-  <div class="section-title">รายละเอียดออเดอร์</div>
+  <div class="section-lbl" style="margin-top:20px">รายละเอียดออเดอร์</div>
   <div class="box">
-    <label class="fl">👤 ชื่อลูกค้า (ไม่บังคับ)</label>
+    <label class="fl">ชื่อลูกค้า (ไม่บังคับ)</label>
     <input type="text" class="fi" id="cust-name" placeholder="เช่น คุณ Patypaty">
-
-    <label class="fl">📅 วันจัดส่ง & เงื่อนไขการโอน</label>
+    <label class="fl">วันจัดส่ง & เงื่อนไขการโอน</label>
     <div class="delivery-info" id="delivery-info">⏳ กำลังคำนวณ...</div>
-
-    <label class="fl">📝 หมายเหตุ (ไม่บังคับ)</label>
+    <label class="fl">หมายเหตุ (ไม่บังคับ)</label>
     <textarea class="fi-note" id="order-note" placeholder="เช่น ขอสีอ่อน / ส่งรวมกันได้เลยค่ะ"></textarea>
   </div>
 
-  <button class="gen-btn" onclick="generate()">✨ สร้างข้อความสรุปออเดอร์</button>
+  <button class="gen-btn" onclick="generate()">สร้างข้อความสรุปออเดอร์</button>
 
   <div id="out-section" style="display:none">
     <div class="out-wrap">
       <div class="out-head">
         <span class="out-head-label">💬 พร้อมส่งทาง LINE OA</span>
-        <button class="copy-btn" id="copy-btn" onclick="copyOut()">📋 คัดลอก</button>
+        <button class="copy-btn" id="copy-btn" onclick="copyOut()">คัดลอก</button>
       </div>
       <div class="out-body"><div class="out-text" id="out-text"></div></div>
     </div>
   </div>
 </div>
+</div>
 
 <!-- ══════ TRACK ══════ -->
 <div class="tab-panel" id="tab-track">
-  <div class="section-title">ติดตามออเดอร์</div>
-
+<div class="wrap">
+  <div class="section-lbl" style="margin-top:20px">ติดตามออเดอร์</div>
   <div class="box">
-    <label class="fl">📦 เลข Order Number</label>
+    <label class="fl">เลข Order Number</label>
     <input type="text" class="fi" id="track-input" placeholder="เช่น MW-0127" onkeydown="if(event.key==='Enter')trackOrder()">
-    <label class="fl" style="margin-top:10px">📱 เบอร์โทรที่ให้ไว้</label>
+    <label class="fl" style="margin-top:12px">เบอร์โทร</label>
     <input type="tel" class="fi" id="track-phone" placeholder="เช่น 0812345678" onkeydown="if(event.key==='Enter')trackOrder()">
-    <button class="track-search-btn" style="width:100%;margin-top:10px;border-radius:12px;padding:12px" onclick="trackOrder()">🔍 ค้นหาออเดอร์</button>
+    <div style="font-size:12px;color:var(--sub);margin-top:6px">* ต้องกรอกทั้งเลข Order และเบอร์โทรค่ะ</div>
+    <button class="track-search-btn" onclick="trackOrder()">ค้นหาออเดอร์</button>
     <div id="track-result"></div>
   </div>
+</div>
 </div>
 
 <script>
@@ -368,15 +387,15 @@ function clearCart(){
 
 function setZone(v){
   zoneOut=(v==='out');
-  document.getElementById('zone-in').className='tog-opt'+(zoneOut?'':' sel-accent');
-  document.getElementById('zone-out').className='tog-opt'+(zoneOut?' sel-accent':'');
+  document.getElementById('zone-in').className='tog-opt'+(zoneOut?'':' sel-blue');
+  document.getElementById('zone-out').className='tog-opt'+(zoneOut?' sel-blue':'');
   recalc();
 }
 
 function setBag(v){
   bagMode=v;
   ['none','new','have'].forEach(m=>{
-    const cls='tog-opt'+(m==='have'&&v==='have'?' sel-green':m===v?' sel-accent':'');
+    const cls='tog-opt'+(m==='have'&&v==='have'?' sel-green':m===v?' sel-blue':'');
     document.getElementById('bag-'+m).className=cls;
   });
   buildDelivery(v);
