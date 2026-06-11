@@ -503,8 +503,8 @@ async function trackOrder(){
       return;
     }
 
-    // Columns: 0=OrderNo, 1=ชื่อผู้รับสินค้า, 2=สถานะ, 3=รหัสไปรษณีย์, 4=เลขพัสดุ, 5=หมายเหตุ
-    const [orderNo,custName,status,postcode,trackingNo,remark]=found;
+    // Columns: 0=OrderNo, 1=ชื่อผู้รับสินค้า, 2=รหัสไปรษณีย์, 3=เลขพัสดุ, 4=สถานะ, 5=หมายเหตุ
+    const [orderNo,custName,postcode,trackingNo,status,remark]=found;
     res.innerHTML=`
       <div class="track-result">
         <div class="track-result-head" style="background:var(--accent-light);color:var(--accent)">
