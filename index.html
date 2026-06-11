@@ -498,15 +498,11 @@ const STATUS_MAP={
   'จัดส่งแล้ว': {label:'💖 จัดส่งแล้ว', cls:'badge-done'},
 };
 function statusBadge(s){
-  // clean CSV artifacts: trim whitespace, remove BOM, remove surrounding quotes
-  const clean=(s||'').replace(/^\uFEFF/,'').replace(/^["']|["']$/g,'').trim();
-  const m=STATUS_MAP[clean]||{label:'💖 จัดส่งแล้ว',cls:'badge-done'};
-  // fallback: try partial match
-  if(!STATUS_MAP[clean]){
-    const key=Object.keys(STATUS_MAP).find(k=>clean.includes(k)||k.includes(clean));
-    if(key) return `<span class="${STATUS_MAP[key].cls}">${STATUS_MAP[key].label}</span>`;
-  }
-  return `<span class="${m.cls}">${m.label}</span>`;
+  const clean=(s||'').replace(/^\uFEFF/,'').replace(/^["'\s]+|["'\s]+$/g,'');
+  if(STATUS_MAP[clean]) return `<span class="${STATUS_MAP[clean].cls}">${STATUS_MAP[clean].label}</span>`;
+  const key=Object.keys(STATUS_MAP).find(k=>clean.includes(k)||k.includes(clean));
+  if(key) return `<span class="${STATUS_MAP[key].cls}">${STATUS_MAP[key].label}</span>`;
+  return `<span class="badge-err">❓ ${clean||'-'}</span>`;
 }
 
 async function trackOrder(){
@@ -568,14 +564,18 @@ async function trackOrder(){
       return;
     }
 
-    // Columns: 0=OrderNo, 1=ชื่อผู้รับสินค้า, 2=เบอร์โทร, 3=สินค้า, 4=สถานะ, 5=รหัสไปรษณีย์, 6=เลขพัสดุ, 7=หมายเหตุ
-    const [orderNo,custName,sheetPhone,product,status,postcode,trackingNo,remark]=found;
+    // DEBUG — แสดง raw columns (ลบออกหลัง verify แล้ว)
+    console.log('RAW found row:', found);
+    found.forEach((v,i)=>console.log(`col[${i}]:`, JSON.stringify(v)));
+
+    // Columns: 0=OrderNo, 1=ชื่อผู้รับ, 2=เบอร์โทร, 3=สถานะ(dropdown), 4=รหัสไปรษณีย์, 5=เลขพัสดุ, 6=หมายเหตุ
+    const [orderNo,custName,sheetPhone,status,postcode,trackingNo,remark]=found;
 
     // verify phone — compare digits only
     const cleanInput=phone.replace(/\D/g,'');
     const cleanSheet=(sheetPhone||'').replace(/\D/g,'');
     if(cleanInput!==cleanSheet){
-      res.innerHTML=`<div style="padding:16px;font-size:13px;color:#C04060;background:#FDE8EC;border-radius:12px;margin-top:10px">❌ เบอร์โทรไม่ตรงกับที่ลงทะเบียนไว้นะคะ<br><span style="font-size:12px">กรุณาตรวจสอบอีกครั้งค่ะ</span></div>`;
+      res.innerHTML=`<div style="padding:16px;font-size:13px;color:var(--red);background:var(--red-bg);border-radius:12px;margin-top:10px">❌ เบอร์โทรไม่ตรงกับที่ลงทะเบียนไว้นะคะ<br><span style="font-size:12px">กรุณาตรวจสอบอีกครั้งค่ะ</span></div>`;
       return;
     }
 
@@ -586,7 +586,6 @@ async function trackOrder(){
         </div>
         <div class="track-result-body">
           <div class="track-row"><span class="track-key">👤 ผู้รับ</span><span class="track-val">${custName||'-'}</span></div>
-          <div class="track-row" style="align-items:flex-start"><span class="track-key">🛍️ สินค้า</span><span class="track-val" style="white-space:pre-wrap;line-height:1.6">${product||'-'}</span></div>
           <div class="track-row"><span class="track-key">📍 สถานะ</span><span class="track-val">${statusBadge(status)}</span></div>
           <div class="track-row"><span class="track-key">📮 รหัสไปรษณีย์</span><span class="track-val">${postcode||'-'}</span></div>
           <div class="track-row"><span class="track-key">🚚 เลขพัสดุ</span><span class="track-val" style="font-family:'IBM Plex Mono',monospace">${trackingNo||'ยังไม่มีเลข'}</span></div>
