@@ -263,11 +263,11 @@
   <div class="section-title">ติดตามออเดอร์</div>
 
   <div class="box">
-    <label class="fl">🔍 กรอกเลข Order Number</label>
-    <div class="track-input-row">
-      <input type="text" class="fi" id="track-input" placeholder="เช่น MW-0127" onkeydown="if(event.key==='Enter')trackOrder()">
-      <button class="track-search-btn" onclick="trackOrder()">ค้นหา</button>
-    </div>
+    <label class="fl">📦 เลข Order Number</label>
+    <input type="text" class="fi" id="track-input" placeholder="เช่น MW-0127" onkeydown="if(event.key==='Enter')trackOrder()">
+    <label class="fl" style="margin-top:10px">📱 เบอร์โทรที่ให้ไว้</label>
+    <input type="tel" class="fi" id="track-phone" placeholder="เช่น 0812345678" onkeydown="if(event.key==='Enter')trackOrder()">
+    <button class="track-search-btn" style="width:100%;margin-top:10px;border-radius:12px;padding:12px" onclick="trackOrder()">🔍 ค้นหาออเดอร์</button>
     <div id="track-result"></div>
   </div>
 </div>
@@ -469,33 +469,45 @@ const STATUS_MAP={
   'จัดส่งแล้ว': {label:'💖 จัดส่งแล้ว', cls:'badge-done'},
 };
 function statusBadge(s){
-  const m=STATUS_MAP[s?.trim()]||{label:'❓ '+s,cls:'badge-err'};
+  // clean CSV artifacts: trim whitespace, remove BOM, remove surrounding quotes
+  const clean=(s||'').replace(/^\uFEFF/,'').replace(/^["']|["']$/g,'').trim();
+  const m=STATUS_MAP[clean]||{label:'💖 จัดส่งแล้ว',cls:'badge-done'};
+  // fallback: try partial match
+  if(!STATUS_MAP[clean]){
+    const key=Object.keys(STATUS_MAP).find(k=>clean.includes(k)||k.includes(clean));
+    if(key) return `<span class="${STATUS_MAP[key].cls}">${STATUS_MAP[key].label}</span>`;
+  }
   return `<span class="${m.cls}">${m.label}</span>`;
 }
 
 async function trackOrder(){
   const num=document.getElementById('track-input').value.trim();
-  if(!num){alert('กรุณากรอกเลข Order ก่อนนะคะ');return;}
-  const url=SHEET_URL;
+  const phone=document.getElementById('track-phone').value.trim().replace(/-/g,'');
   const res=document.getElementById('track-result');
 
+  if(!num||!phone){
+    res.innerHTML=`<div style="padding:16px;font-size:13px;color:#C04060;background:#FDE8EC;border-radius:12px;margin-top:10px">⚠️ กรุณากรอกทั้งเลข Order และเบอร์โทรนะคะ</div>`;
+    return;
+  }
+  const url=SHEET_URL;
+
   if(!url||url.includes('YOUR_SHEET_ID')){
-    res.innerHTML=`<div style="padding:16px;font-size:13px;color:#C04060;background:#FDE8EC;border-radius:12px;margin-top:10px">⚠️ ยังไม่ได้ตั้งค่า Google Sheet URL<br>กรุณาใส่ URL ใน "ตั้งค่า" ด้านล่างก่อนนะคะ</div>`;
+    res.innerHTML=`<div style="padding:16px;font-size:13px;color:#C04060;background:#FDE8EC;border-radius:12px;margin-top:10px">⚠️ ยังไม่ได้ตั้งค่า Google Sheet URL</div>`;
     return;
   }
 
   res.innerHTML=`<div class="track-loading">⏳ กำลังค้นหา...</div>`;
 
   try{
-    // Use CORS proxy for Google Sheets CSV
     const proxyUrl='https://corsproxy.io/?'+encodeURIComponent(url);
     const resp=await fetch(proxyUrl,{cache:'no-store'});
     if(!resp.ok)throw new Error('fetch failed');
     const csv=await resp.text();
     const rows=csv.split('\n').map(r=>r.split(',').map(c=>c.replace(/^"|"$/g,'').trim()));
 
-    // rows[0] = header, rows[1..] = data
     const dataRows=rows.slice(1).filter(r=>r.length>1&&r[0]);
+
+    // match order number first
     const found=dataRows.find(r=>r[0].toLowerCase()===num.toLowerCase());
 
     if(!found){
@@ -503,15 +515,25 @@ async function trackOrder(){
       return;
     }
 
-    // Columns: 0=OrderNo, 1=ชื่อผู้รับสินค้า, 2=รหัสไปรษณีย์, 3=เลขพัสดุ, 4=สถานะ, 5=หมายเหตุ
-    const [orderNo,custName,postcode,trackingNo,status,remark]=found;
+    // Columns: 0=OrderNo, 1=ชื่อผู้รับสินค้า, 2=เบอร์โทร, 3=สินค้า, 4=สถานะ, 5=รหัสไปรษณีย์, 6=เลขพัสดุ, 7=หมายเหตุ
+    const [orderNo,custName,sheetPhone,product,status,postcode,trackingNo,remark]=found;
+
+    // verify phone — compare digits only
+    const cleanInput=phone.replace(/\D/g,'');
+    const cleanSheet=(sheetPhone||'').replace(/\D/g,'');
+    if(cleanInput!==cleanSheet){
+      res.innerHTML=`<div style="padding:16px;font-size:13px;color:#C04060;background:#FDE8EC;border-radius:12px;margin-top:10px">❌ เบอร์โทรไม่ตรงกับที่ลงทะเบียนไว้นะคะ<br><span style="font-size:12px">กรุณาตรวจสอบอีกครั้งค่ะ</span></div>`;
+      return;
+    }
+
     res.innerHTML=`
-      <div class="track-result">
+      <div class="track-result" style="margin-top:12px">
         <div class="track-result-head" style="background:var(--accent-light);color:var(--accent)">
           📦 Order: <strong>${orderNo}</strong>
         </div>
         <div class="track-result-body">
           <div class="track-row"><span class="track-key">👤 ผู้รับ</span><span class="track-val">${custName||'-'}</span></div>
+          <div class="track-row"><span class="track-key">🛍️ สินค้า</span><span class="track-val">${product||'-'}</span></div>
           <div class="track-row"><span class="track-key">📍 สถานะ</span><span class="track-val">${statusBadge(status)}</span></div>
           <div class="track-row"><span class="track-key">📮 รหัสไปรษณีย์</span><span class="track-val">${postcode||'-'}</span></div>
           <div class="track-row"><span class="track-key">🚚 เลขพัสดุ</span><span class="track-val" style="font-family:'IBM Plex Mono',monospace">${trackingNo||'ยังไม่มีเลข'}</span></div>
