@@ -532,7 +532,31 @@ async function trackOrder(){
     const resp=await fetch(proxyUrl,{cache:'no-store'});
     if(!resp.ok)throw new Error('fetch failed');
     const csv=await resp.text();
-    const rows=csv.split('\n').map(r=>r.split(',').map(c=>c.replace(/^"|"$/g,'').trim()));
+
+    // Proper CSV parser — handles quoted fields containing commas and newlines
+    function parseCSV(text){
+      const rows=[];
+      let row=[], field='', inQ=false;
+      for(let i=0;i<text.length;i++){
+        const c=text[i], n=text[i+1];
+        if(inQ){
+          if(c==='"'&&n==='"'){field+='"';i++;}          // escaped quote
+          else if(c==='"'){inQ=false;}                   // end quote
+          else{field+=c;}
+        } else {
+          if(c==='"'){inQ=true;}
+          else if(c===','){row.push(field.trim());field='';}
+          else if(c==='\n'||(c==='\r'&&n==='\n')){
+            if(c==='\r')i++;
+            row.push(field.trim());rows.push(row);row=[];field='';
+          } else {field+=c;}
+        }
+      }
+      if(field||row.length)row.push(field.trim()),rows.push(row);
+      return rows;
+    }
+
+    const rows=parseCSV(csv);
 
     const dataRows=rows.slice(1).filter(r=>r.length>1&&r[0]);
 
@@ -557,7 +581,7 @@ async function trackOrder(){
 
     res.innerHTML=`
       <div class="track-result" style="margin-top:12px">
-        <div class="track-result-head" style="background:var(--accent-light);color:var(--accent)">
+        <div class="track-result-head">
           📦 Order: <strong>${orderNo}</strong>
         </div>
         <div class="track-result-body">
