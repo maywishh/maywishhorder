@@ -159,6 +159,52 @@
   .tab-panel{display:none;}
   .tab-panel.active{display:block;}
 
+  /* ── STICKY CART BAR ── */
+  .sticky-cart{
+    position:fixed;bottom:0;left:0;right:0;z-index:100;
+    background:var(--card);
+    border-top:1px solid var(--border);
+    padding:10px 16px max(10px, env(safe-area-inset-bottom));
+    display:none;
+    align-items:center;
+    gap:12px;
+    box-shadow:0 -4px 20px rgba(0,0,0,0.08);
+  }
+  .sticky-cart.show{display:flex;}
+  .sticky-cart-info{flex:1;}
+  .sticky-cart-count{font-size:11px;color:var(--sub);font-weight:500;}
+  .sticky-cart-total{font-family:var(--mono);font-size:17px;font-weight:700;color:var(--text);margin-top:1px;}
+  .sticky-cart-btn{
+    background:var(--blue);color:#fff;border:none;
+    border-radius:14px;padding:12px 20px;
+    font-family:'Sarabun',sans-serif;font-size:14px;font-weight:700;
+    cursor:pointer;white-space:nowrap;
+    transition:opacity .15s,transform .1s;
+    display:flex;align-items:center;gap:6px;
+  }
+  .sticky-cart-btn:active{transform:scale(.96);opacity:.9;}
+  .sticky-cart-badge{
+    background:#fff;color:var(--blue);
+    border-radius:10px;font-size:11px;font-weight:800;
+    padding:1px 6px;min-width:18px;text-align:center;
+    line-height:1.4;
+  }
+
+  /* ── MOBILE TOUCH TARGETS ── */
+  .qb{width:36px;height:36px;font-size:20px;}
+  .fi{font-size:16px;} /* prevent iOS zoom on focus */
+  .fi-note{font-size:16px;}
+
+  /* ── HAPTIC FEEDBACK VISUAL ── */
+  @keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
+  .qb.pop{animation:pop .15s ease;}
+
+  /* ── SWIPE HINT on tabs ── */
+  .tabs-hint{text-align:center;font-size:10px;color:var(--sub);padding:4px 0 0;opacity:.6;letter-spacing:.3px;}
+
+  /* body bottom padding accounts for sticky bar */
+  body{padding-bottom:calc(80px + env(safe-area-inset-bottom));}
+
   /* FAQ */
   .faq-item{border-bottom:1px solid var(--border);cursor:pointer;user-select:none;}
   .faq-q{font-size:13.5px;font-weight:500;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;}
@@ -186,6 +232,19 @@
   <button class="tab-btn" onclick="switchTab('cart',this)">🛒 ตะกร้า <span class="badge-num" id="cart-badge">0</span></button>
   <button class="tab-btn" onclick="switchTab('track',this)">📦 Tracking</button>
 </div>
+<div class="tabs-hint">← เลื่อนดูสินค้าทั้งหมดได้เลยค่ะ →</div>
+
+<!-- STICKY CART BAR -->
+<div class="sticky-cart" id="sticky-cart">
+  <div class="sticky-cart-info">
+    <div class="sticky-cart-count" id="sticky-count">0 รายการ</div>
+    <div class="sticky-cart-total" id="sticky-total">0฿</div>
+  </div>
+  <button class="sticky-cart-btn" onclick="goToCart()">
+    🛒 ดูตะกร้า
+    <span class="sticky-cart-badge" id="sticky-badge">0</span>
+  </button>
+</div>
 
 <!-- ══════ TOPLOADER ══════ -->
 <div class="tab-panel active" id="tab-toploader">
@@ -203,8 +262,8 @@
   <div class="pc"><div class="pc-icon">🍎</div><div class="pc-info"><div class="pc-name">Apple</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_apple',-1)">−</button><span class="qd" id="qty_tb_apple">0</span><button class="qb plus" onclick="adj('tb_apple',1)">+</button></div><div class="addon-row"><span class="addon-lbl">🌸 พวง</span><button class="qb minus" onclick="adjAddon('tb_apple',-1)">−</button><span class="qd" id="add_tb_apple" style="font-size:13px;min-width:18px">0</span><button class="qb plus" onclick="adjAddon('tb_apple',1)">+</button><span style="font-size:11px;color:var(--sub)">×20฿</span></div></div><div class="pc-price">59฿</div></div>
   <div class="pc"><div class="pc-icon">🧙‍♀️</div><div class="pc-info"><div class="pc-name">แม่มดสีม่วง</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_witch',-1)">−</button><span class="qd" id="qty_tb_witch">0</span><button class="qb plus" onclick="adj('tb_witch',1)">+</button></div><div class="addon-row"><span class="addon-lbl">🌸 พวง</span><button class="qb minus" onclick="adjAddon('tb_witch',-1)">−</button><span class="qd" id="add_tb_witch" style="font-size:13px;min-width:18px">0</span><button class="qb plus" onclick="adjAddon('tb_witch',1)">+</button><span style="font-size:11px;color:var(--sub)">×20฿</span></div></div><div class="pc-price">59฿</div></div>
 
-  <div class="price-group">Bon bon drop (ไม่ใช่ Sanrio) · 69฿</div>
-  <div class="pc"><div class="pc-icon">🍬</div><div class="pc-info"><div class="pc-name">Bon bon drop</div><div class="pc-sub">Toploader B8 · ไม่ใช่ Sanrio</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_bonbon',-1)">−</button><span class="qd" id="qty_tb_bonbon">0</span><button class="qb plus" onclick="adj('tb_bonbon',1)">+</button></div><div class="addon-row"><span class="addon-lbl">🌸 พวง</span><button class="qb minus" onclick="adjAddon('tb_bonbon',-1)">−</button><span class="qd" id="add_tb_bonbon" style="font-size:13px;min-width:18px">0</span><button class="qb plus" onclick="adjAddon('tb_bonbon',1)">+</button><span style="font-size:11px;color:var(--sub)">×20฿</span></div></div><div class="pc-price">69฿</div></div>
+  <div class="price-group">Bonbon drop (ไม่ใช่ Sanrio) · 69฿</div>
+  <div class="pc"><div class="pc-icon">🍬</div><div class="pc-info"><div class="pc-name">Bonbon drop</div><div class="pc-sub">Toploader B8 · ไม่ใช่ Sanrio</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_bonbon',-1)">−</button><span class="qd" id="qty_tb_bonbon">0</span><button class="qb plus" onclick="adj('tb_bonbon',1)">+</button></div><div class="addon-row"><span class="addon-lbl">🌸 พวง</span><button class="qb minus" onclick="adjAddon('tb_bonbon',-1)">−</button><span class="qd" id="add_tb_bonbon" style="font-size:13px;min-width:18px">0</span><button class="qb plus" onclick="adjAddon('tb_bonbon',1)">+</button><span style="font-size:11px;color:var(--sub)">×20฿</span></div></div><div class="pc-price">69฿</div></div>
 
   <div class="price-group">Clover · ตู้ปลา · 79฿</div>
   <div class="pc"><div class="pc-icon">🍀</div><div class="pc-info"><div class="pc-name">Clover</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_clover',-1)">−</button><span class="qd" id="qty_tb_clover">0</span><button class="qb plus" onclick="adj('tb_clover',1)">+</button></div><div class="addon-row"><span class="addon-lbl">🌸 พวง</span><button class="qb minus" onclick="adjAddon('tb_clover',-1)">−</button><span class="qd" id="add_tb_clover" style="font-size:13px;min-width:18px">0</span><button class="qb plus" onclick="adjAddon('tb_clover',1)">+</button><span style="font-size:11px;color:var(--sub)">×20฿</span></div></div><div class="pc-price">79฿</div></div>
@@ -213,8 +272,9 @@
   <div class="price-group">ผีเสื้อสีดำ · 169฿</div>
   <div class="pc"><div class="pc-icon">🦋</div><div class="pc-info"><div class="pc-name">ผีเสื้อสีดำ</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_black_butterfly',-1)">−</button><span class="qd" id="qty_tb_black_butterfly">0</span><button class="qb plus" onclick="adj('tb_black_butterfly',1)">+</button></div><div class="addon-row"><span class="addon-lbl">🌸 พวง</span><button class="qb minus" onclick="adjAddon('tb_black_butterfly',-1)">−</button><span class="qd" id="add_tb_black_butterfly" style="font-size:13px;min-width:18px">0</span><button class="qb plus" onclick="adjAddon('tb_black_butterfly',1)">+</button><span style="font-size:11px;color:var(--sub)">×20฿</span></div></div><div class="pc-price">169฿</div></div>
 
-  <div class="price-group">Sanrio · 189฿</div>
-  <div class="pc"><div class="pc-icon">🎀</div><div class="pc-info"><div class="pc-name">Sanrio</div><div class="pc-sub">Toploader B8</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_sanrio',-1)">−</button><span class="qd" id="qty_tb_sanrio">0</span><button class="qb plus" onclick="adj('tb_sanrio',1)">+</button></div><div class="addon-row"><span class="addon-lbl">🌸 พวง</span><button class="qb minus" onclick="adjAddon('tb_sanrio',-1)">−</button><span class="qd" id="add_tb_sanrio" style="font-size:13px;min-width:18px">0</span><button class="qb plus" onclick="adjAddon('tb_sanrio',1)">+</button><span style="font-size:11px;color:var(--sub)">×20฿</span></div></div><div class="pc-price">189฿</div></div>
+  <div class="price-group">Sanrio · 99฿ | 189฿</div>
+  <div class="pc"><div class="pc-icon">🍭</div><div class="pc-info"><div class="pc-name">Sanrio</div><div class="pc-sub">Toploader B8 · 99฿</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_sanrio99',-1)">−</button><span class="qd" id="qty_tb_sanrio99">0</span><button class="qb plus" onclick="adj('tb_sanrio99',1)">+</button></div><div class="addon-row"><span class="addon-lbl">🌸 พวง</span><button class="qb minus" onclick="adjAddon('tb_sanrio99',-1)">−</button><span class="qd" id="add_tb_sanrio99" style="font-size:13px;min-width:18px">0</span><button class="qb plus" onclick="adjAddon('tb_sanrio99',1)">+</button><span style="font-size:11px;color:var(--sub)">×20฿</span></div></div><div class="pc-price">99฿</div></div>
+  <div class="pc"><div class="pc-icon">🎀</div><div class="pc-info"><div class="pc-name">Sanrio + Bonbon</div><div class="pc-sub">Toploader B8 · 189฿</div><div class="qty-row"><button class="qb minus" onclick="adj('tb_sanrio',-1)">−</button><span class="qd" id="qty_tb_sanrio">0</span><button class="qb plus" onclick="adj('tb_sanrio',1)">+</button></div><div class="addon-row"><span class="addon-lbl">🌸 พวง</span><button class="qb minus" onclick="adjAddon('tb_sanrio',-1)">−</button><span class="qd" id="add_tb_sanrio" style="font-size:13px;min-width:18px">0</span><button class="qb plus" onclick="adjAddon('tb_sanrio',1)">+</button><span style="font-size:11px;color:var(--sub)">×20฿</span></div></div><div class="pc-price">189฿</div></div>
 </div>
 </div>
 
@@ -375,11 +435,12 @@ const P={
   tb_tomato:          {name:"มะเขือเทศ",       cat:"Toploader B8",price:59, isTB:true},
   tb_apple:           {name:"Apple",            cat:"Toploader B8",price:59, isTB:true},
   tb_witch:           {name:"แม่มดสีม่วง",      cat:"Toploader B8",price:59, isTB:true},
-  tb_bonbon:          {name:"Bon bon drop",    cat:"Toploader B8",price:69, isTB:true},
+  tb_bonbon:          {name:"Bonbon drop",     cat:"Toploader B8",price:69, isTB:true},
   tb_clover:          {name:"Clover",          cat:"Toploader B8",price:79, isTB:true},
   tb_aquarium:        {name:"ตู้ปลา",         cat:"Toploader B8",price:79, isTB:true},
   tb_black_butterfly: {name:"ผีเสื้อสีดำ",    cat:"Toploader B8",price:169,isTB:true},
-  tb_sanrio:          {name:"Sanrio",          cat:"Toploader B8",price:189,isTB:true},
+  tb_sanrio99:        {name:"Sanrio",           cat:"Toploader B8",price:99, isTB:true},
+  tb_sanrio:          {name:"Sanrio + Bonbon",  cat:"Toploader B8",price:189,isTB:true},
   ms_bonbon:          {name:"Bon bon",         cat:"MagSafe",     price:169,isTB:false},
   ms_black_butterfly: {name:"ผีเสื้อสีดำ",    cat:"MagSafe",     price:229,isTB:false},
   ms_sanrio:          {name:"Sanrio",          cat:"MagSafe",     price:249,isTB:false},
@@ -438,7 +499,22 @@ function adj(id,d){
   el.textContent=cart[id];el.className='qd'+(cart[id]>0?' nz':'');
   refreshBadge();renderList();recalc();
 }
-function refreshBadge(){document.getElementById('cart-badge').textContent=Object.values(cart).reduce((a,b)=>a+b,0);}
+function refreshBadge(){
+  const total=Object.values(cart).reduce((a,b)=>a+b,0);
+  document.getElementById('cart-badge').textContent=total;
+  // sticky bar
+  const bar=document.getElementById('sticky-cart');
+  const items=Object.entries(cart).filter(([,q])=>q>0);
+  if(total>0 && !document.getElementById('tab-cart').classList.contains('active')){
+    bar.classList.add('show');
+    document.getElementById('sticky-badge').textContent=total;
+    document.getElementById('sticky-count').textContent=`${total} รายการ`;
+    const sub=items.reduce((s,[id,q])=>s+itemTotal(id,q),0);
+    document.getElementById('sticky-total').textContent=(sub+shipCost())+'฿';
+  } else {
+    bar.classList.remove('show');
+  }
+}
 function shipCost(){if(bagMode==='have')return 0;return zoneOut?65:40;}
 function itemTotal(id,q){return P[id].price*q+((addons[id]&&P[id].isTB)?(addons[id]*ADDON):0);}
 
@@ -495,11 +571,19 @@ function recalc(){
   document.getElementById('total-val').textContent=(sub+ship)+'฿';
 }
 
+function goToCart(){
+  const cartBtn=document.querySelectorAll('.tab-btn')[2];
+  switchTab('cart',cartBtn);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
 function switchTab(tab,btn){
   document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('tab-'+tab).classList.add('active');
   btn.classList.add('active');
+  if(tab==='cart') document.getElementById('sticky-cart').classList.remove('show');
+  else refreshBadge();
 }
 
 /* ── Generate ───────────── */
